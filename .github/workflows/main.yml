@@ -6,7 +6,7 @@ jobs:
   build:
       runs-on: ubuntu-latest
       steps:
-      - uses: actions/checkout@vw
+      - uses: actions/checkout@v2
       - name : docker login
       env: 
         DOCKER_USER: $ {{ secrets.DOCKER_USER }}
