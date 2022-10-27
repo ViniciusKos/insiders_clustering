@@ -1,10 +1,10 @@
-FROM ubuntu: latest
+FROM ubuntu:latest
 
 RUN apt update
 RUN apt install python3 -y
 
-WORKDIR /usr/app/src
+WORKDIR /code
 
-COPY hello.py ./
+COPY print.py ./
 
-CDM [ "python3", "./print.py"]
+CMD [ "python3", "./print.py"]
