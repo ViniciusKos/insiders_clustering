@@ -5,3 +5,7 @@ scipy==1.8.0
 s3fs==2022.8.2
 SQLAlchemy==1.4.42
 pip==21.2.4
+seaborn==0.11.2
+yellowbrick==1.5
+plotly==5.7.0
+statsmodels==0.13.2
