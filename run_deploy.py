@@ -5,32 +5,21 @@
 import pandas as pd
 
 # %%
-import sqlite3
 from sqlalchemy import create_engine
 from sklearn.preprocessing import StandardScaler, RobustScaler,MinMaxScaler
 import pandas as pd
 import numpy as np
-import re
-import matplotlib.pyplot as plt
-from sklearn import cluster as c 
-from sklearn import metrics as m
-
-from getpass import getpass
-import os
-import pickle
-import s3fs
+import re, pickle, s3fs
 
 
 
 
-aws_key_id = os.environ.get( "AWS_ACCESS_KEY_ID" )
-aws_key_secret = os.environ.get( "AWS_SECRET_ACCESS_KEY" )
 
 
 
-cred = pd.read_csv("../../cred.csv", encoding='latin1')
-aws_key_id = cred["Access key ID"][0]
-aws_key_secret = cred["Secret access key"][0]
+# cred = pd.read_csv("cred.csv", encoding='latin1')
+# aws_key_id = cred["Access key ID"][0]
+# aws_key_secret = cred["Secret access key"][0]
 
 
 
@@ -61,7 +50,6 @@ df2=df1.copy()
 returns = df2.loc[df2['quantity'] < 0, :]
 purchases = df2.loc[df2['quantity'] >= 0, :]
 df2=df2[~df2['invoiceno'].str.contains('[^0-9]+', na=False)]
-print(df2.shape)
 
 
 df2 = df2.drop( columns='description', axis=1 )
@@ -119,7 +107,6 @@ df_aux = ( purchases.groupby('customerid').agg( n_purchases_unique = ('invoiceno
 
 
 df_ref = df_ref.merge( df_aux[['customerid', 'n_purchases_unique']], how='left', on='customerid')
-print(df_ref.isna().sum())
 
 df_ref.head()
 
@@ -168,7 +155,6 @@ for i in rs_cols:
 
 X=df5.drop(columns=['customerid'])
 
-X.head()
 
 # %%
 #km = pd.read_pickle(f"s3://insiders-clustering-deploy/artifacts/model.pkl")
@@ -215,7 +201,8 @@ SELECT * FROM insiders
 """
 
 df=pd.read_sql_query( query_collect, conn)
-df.head()
+
+print("df collected", df.head())
 
 conn.clear_compiled_cache()
 
