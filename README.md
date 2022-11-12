@@ -33,7 +33,7 @@ Step 09. Cluster Analysis and Business Value:
 Step 10. Deploy Model to Production:  
 
 ## 3) Data collection
-The data was collected in Kaggle (UK-High value Customer Identification - https://www.kaggle.com/code/cheekonglim/uk-high-value-customers-identification) and all the columns attributes are explained below:
+The data was collected in Kaggle (UK-High value Customer Identification) and all the columns attributes are explained below:
 
 Invoiceno - Invoice Number
 StockCode - Product Stock Code
@@ -50,47 +50,17 @@ In this section we will list some hypotheses that can be tested using this data,
 with business areas and are very important to drive our analyses.
 If they are not enough to separate the most valuable customers we would search for more data and formulate new hypotheses
 
-Through the mind map, we can compare our hypothesis by factors (like Country, Products, etc...) and their attributes (Store Size, Product Price, etc...)
+Through the mind map, we can assess if the a specific feature has a big variance, thus it may be good separing the customers.
 
-There are some hypothesis judged to be most relevant and could drive our Exploratory Data Analysis. They are listed below.
+There are some features created in order tho find the most valuable customers. They were based on RFV Metrics:
 
-1. Stores with larger assortments should sell more.
-2. Stores with closer competitors should sell less.
-3. Stores with longer competitors should sell more.
-4. Stores with longer active promotions should sell more.
-5. Stores with more promotion days should sell more.
-6. Stores with more aggressive promotion should sell more
-7. Stores with more consecutive promotions should sell more.
-8. Stores open on the Christmas holiday should sell more.
-9. Stores should sell more over the years.
-10. Stores should sell more in the second half of the year.
-11. Stores should sell more after the 10th of each month.
-12. Stores should sell less on weekends.
-13. Stores should sell less during school holidays.
-
-Some of them might not be tested in advance for lack of information in this DataSet. Thus it can be tested in the next CRISP-DM circle.
-
-**Below are the summary of the TOP 3 INSIGHTS achieved through the tested hypotheses.**
-1. Stores with larger assortments should sell more. **TRUE**
-
-![image](https://user-images.githubusercontent.com/73034020/180753446-e35fd0a4-9b15-44c5-80f7-3104ccbe1079.png)
-
-![image](https://user-images.githubusercontent.com/73034020/180751961-8b4593ec-df14-441b-afd7-b97414b57818.png)
-
-There are proportionally more sales in bigger assortments than the basic ones.
-
-2. Stores should sell more in the second half of the year. **TRUE**
-
-![image](https://user-images.githubusercontent.com/73034020/182120827-f38d1da6-5502-43dc-a779-2b4902fa387d.png)
-
-Stores sell more in the second half of the year, especially in December.
-
-3. Stores with closer competitors should sell less. **FALSE**
-
-![image](https://user-images.githubusercontent.com/73034020/182124593-5d93259b-6c4a-4524-a1ce-c73a148009f3.png)
+![image](https://user-images.githubusercontent.com/73034020/201492747-560ab488-a9b3-4154-a8e8-3d87cfa04c66.png)
 
 
-Stores sell more when close to competitors.
+1. Profit = (Quantity of purchases * Unit Price) - (Quantity of returns * Unit Price)
+2. Recency = Days between today and the last purchase.
+3. Frequency = Average interval between a purchase and another.
+
 
 ## 5) Machine learning models applied and performances.
 
