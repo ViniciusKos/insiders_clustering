@@ -64,21 +64,16 @@ There are some features created in order tho find the most valuable customers. T
 
 ## 5) Machine learning models applied and performances.
 
-Before starting the machine learning models tests, we should state a baseline, a metric to be beaten. Usually, a baseline is a simple prediction based on the mean of the values, in this case, the mean metrics are in the table below.
+Several models were tested to find which has the highest Silhouette Score.
 
-![image](https://user-images.githubusercontent.com/73034020/186864386-7c6a6c45-fb10-4255-8088-128ee901a06d.png)
+The Silhouette Coefficient is calculated using the mean intra-cluster distance (a) and the mean nearest-cluster distance (b) for each sample. The Silhouette Coefficient for a sample is (b - a) / max(a, b). To clarify, b is the distance between a sample and the nearest cluster that the sample is not a part of. 
+The best value is 1 and the worst value is -1. Values near 0 indicate overlapping clusters. Negative values generally indicate that a sample has been assigned to the wrong cluster, as a different cluster is more similar. (Source: Sklearn Documentation - https://scikit-learn.org/stable/modules/generated/sklearn.metrics.silhouette_score.html)
 
-Four different models were evaluated through time series cross-validation, the idea for this method is to divide the training set into two folds at each iteration on the condition that the validation set is always ahead of the training set, below it's shown how it works.
+![image](https://user-images.githubusercontent.com/73034020/201493041-98bde2d8-f7a4-4366-8d75-6a6d0af48541.png)
 
-![cv](https://user-images.githubusercontent.com/73034020/182566611-46001688-3c88-4799-90c6-6fc007c990ec.png)
 
-These four models got the following cross-val results:
+Below are the model metrics:
 
-![image](https://user-images.githubusercontent.com/73034020/182563192-4d98c42f-542e-41bf-8fad-e5439afd5cd6.png)
-
-Although RandomForestRegressor performed better we are going to choose XGBRegressor as the "winner" model, because it is much lighter to operate in production 
-and it doesn't have a big difference in RMSE (Root Mean Squared Error). 
-It is very important to consider the model performance WHILE in PRODUCTION.
 
 **Hyperparameter tuning and final model**
 
