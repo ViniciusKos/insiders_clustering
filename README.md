@@ -111,9 +111,12 @@ Overall, the model performed well (better than a simple average prediction), how
 
 Further details on business performance are available in the notebook.
 
-## 7) Deploy to the Google Cloud.
-Both the model and telegram Bot was deployed on Google Cloud Platform.
-To get the prediction, type the store number in the telegram bot and deliver the forecast for the next 6 weeks.
+## 7) Deploy on AWS
+Infrastructure and planning
+
+![image](https://user-images.githubusercontent.com/73034020/201500041-b9fb40a1-26ee-476b-98b5-584df9b64add.png)
+
+
 
 An example of the bot working is shown below:
 ![Animation3](https://user-images.githubusercontent.com/73034020/189437514-b52a4492-bad2-4f2f-830a-1bf76260bea7.gif)
