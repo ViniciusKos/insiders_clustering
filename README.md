@@ -1,4 +1,4 @@
-<img src=https://user-images.githubusercontent.com/73034020/201500075-24c94d3c-8979-4453-b9e8-e6f71ea1fc40.png alt="Rossmann logo" title="Rossmann" align="right" height="60" class="center"/>
+<img src=https://user-images.githubusercontent.com/73034020/201500075-24c94d3c-8979-4453-b9e8-e6f71ea1fc40.png alt="Rossmann logo" title="Rossmann" align="right" height="120" width="120" class="center"/>
 
 # Customer Segmentation - Fidelity Program Insiders
 
