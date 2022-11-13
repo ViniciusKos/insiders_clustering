@@ -72,25 +72,22 @@ The best value is 1 and the worst value is -1. Values near 0 indicate overlappin
 ![image](https://user-images.githubusercontent.com/73034020/201493041-98bde2d8-f7a4-4366-8d75-6a6d0af48541.png)
 
 
-Below are the model metrics:
+Below are the models's Silhouette Score for a given the number of Clusters.
+
+![image](https://user-images.githubusercontent.com/73034020/201500353-6c4d9449-bb36-4f1f-8812-107e59062997.png)
+
+DBSCan model was tested as well, but since it has no built in method for chosing the number of cluster and it had low silhouette scores it was not selected for the final model (Further details on notebook).
+For this first CRISP-DM circle, KMeans was chosen since it has the biggest average Silhouette Scores for the given number of clusters.
+
 
 
 **Hyperparameter tuning and final model**
 
-After the candidate model selection, we need to optimize it through hyperparameter tuning. In this project it was tuned:
-n_estimators, learning_rate, max_depth, subsample, colsample_bytee, min_child_weight and gamma.
+The Silhouette Plot below show us the silhouette shape for each clusterization by KMeans algorithm given the number of clusters.
 
-The train and test results of the chosen model considering performance in production are shown below.
+![image](https://user-images.githubusercontent.com/73034020/201500505-a6e47251-2b80-42f6-87dc-dcca1b77feee.png)
 
-Train:  
-![image](https://user-images.githubusercontent.com/73034020/182584516-327c9baa-2633-4f2d-a094-7aa52e743682.png)
 
-Final evaluation on holdout set:  
-![image](https://user-images.githubusercontent.com/73034020/182584550-766751f2-486a-4b66-ab88-610532d6b46c.png)
-
-Comparing our tuned model with the baseline:
-(1817.7/1331.4)-1 = 36,5%
-Our final model has an RMSE of 36,5% less than simply calculating the sales average.
 
 
 
