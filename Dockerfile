@@ -9,6 +9,7 @@ RUN apt install -y git
 RUN sudo apt-get install libpq-dev python3 -y
 
 ##COPY . /opt/app
+RUN ls
 
 RUN pip install -r insiders_clustering/req_simple.txt
 
