@@ -10,7 +10,7 @@ RUN sudo apt-get install libpq-dev python3 -y
 
 ##COPY . /opt/app
 
-RUN pip install -r req_simple.txt
+RUN pip install -r insiders_clustering/req_simple.txt
 
 
-CMD [ "python3", "./run_deploy.py" ]
+CMD [ "python3", "insiders_clustering/run_deploy.py" ]
