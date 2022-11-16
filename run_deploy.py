@@ -1,19 +1,13 @@
 # %% [markdown]
 # High Value Customer Identification (Insiders)
 
-# %%
 import pandas as pd
-
-# %%
 from sqlalchemy import create_engine
 from sklearn.preprocessing import StandardScaler, RobustScaler,MinMaxScaler
 import pandas as pd
 import numpy as np
 import re, pickle, s3fs
-
-
-
-
+from sklearn import metrics as m
 
 
 
@@ -23,7 +17,7 @@ import re, pickle, s3fs
 
 
 
-df0 = pd.read_csv('data.csv')                                                                                                
+df0 = pd.parquet('data.csv')                                                                                                
 df0.columns=df0.columns.str.lower()
 df0.head(3)
 
@@ -118,39 +112,13 @@ df5=df5[df5['avg_ticket']>0]
 df5['avg_ticket']=df5['avg_ticket'].fillna(0)
 print(df5.shape)
 
-# %%
-# fs = s3fs.S3FileSystem( anon=False, key=aws_key_id, secret= aws_key_secret)
 
-# mms_cols=[ 'recencydays',
-#         'avg_ticket', 'frequency',
-#        'avg_basket_size', 'n_purchases_unique']
+mms_cols=['recencydays','avg_ticket', 'frequency','avg_basket_size', 'n_purchases_unique','gross_revenue', 'gross_returns', 'qtd_items', 'qtd_items_return',]
 
-# rs_cols=['gross_revenue', 'gross_returns', 
-#        'qtd_items', 'qtd_items_return',]
-       
-# for i in mms_cols:
-#      mms=pd.read_pickle(f"s3://insiders-clustering-deploy/artifacts/{i}_minmax.pkl")
-#      df5[[i]] = mms.transform(df5[[i]])
-
-# for i in rs_cols:
-#      kb=pd.read_pickle(f"s3://insiders-clustering-deploy/artifacts/{i}_kbins.pkl")
-#      df5[[i]] = kb.transform(df5[[i]])
-
-# %%
-mms_cols=[ 'recencydays',
-        'avg_ticket', 'frequency',
-       'avg_basket_size', 'n_purchases_unique']
-
-rs_cols=['gross_revenue', 'gross_returns', 
-       'qtd_items', 'qtd_items_return',]
        
 for i in mms_cols:
      mms=pd.read_pickle(f"artifacts/{i}_minmax.pkl")
      df5[[i]] = mms.transform(df5[[i]])
-
-for i in rs_cols:
-     kb=pd.read_pickle(f"artifacts/{i}_robust.pkl")
-     df5[[i]] = kb.transform(df5[[i]])
 
 
 X=df5.drop(columns=['customerid'])
@@ -158,57 +126,61 @@ X=df5.drop(columns=['customerid'])
 
 # %%
 #km = pd.read_pickle(f"s3://insiders-clustering-deploy/artifacts/model.pkl")
+
+reducer = pd.read_pickle(f"artifacts/umap_reducer.pkl")
 km = pd.read_pickle(f"artifacts/model.pkl")
 
 # %%
 df8=df5.copy()
-df8['cluster']=km.predict(df8.drop('customerid', axis=1))
+
+
+df8 = pd.DataFrame(reducer.transform(df8.drop('customerid', axis=1)) , columns=['embedding_x', 'embedding_y'])
+df8['cluster']=km.predict(df8)
 
 
 
-df9=df8.copy()
-df9.head(3)
+df9=df5.copy()
+df9['cluster']=df8['cluster']
+
+# for i in ['recencydays','qtd_items','qtd_items_return']:
+#     df9[i]=df9[i].astype(int)
 
 
-for i in ['recencydays','qtd_items','qtd_items_return']:
-    df9[i]=df9[i].astype(int)
+# endpoint = f"postgresql://dbfinal:dbfinal2@dbfinal.cegm6m2znhnj.sa-east-1.rds.amazonaws.com/postgres"
+
+# conn = create_engine( endpoint)
+
+# query_create_table_insiders = """
+#     CREATE TABLE IF NOT EXISTS insiders ( 
+#        grossrevenue   REAL,
+#        gross_returns    REAL,
+#        recencydays    REAL,   
+#        qtd_items   REAL,
+#        qtd_items_return     REAL,
+#        avg_ticket   REAL,
+#        frequency       REAL,
+#        avg_basket_size  REAL,
+#        n_purchases_unique   REAL,
+#        cluster         INTEGER
+#    )
+# """
 
 
-endpoint = f"postgresql://dbfinal:dbfinal2@dbfinal.cegm6m2znhnj.sa-east-1.rds.amazonaws.com/postgres"
+# conn.execute( query_create_table_insiders )
+# df9.to_sql( 'insiders', con=conn, if_exists='replace', index=False )
+# query_collect = """
+# SELECT * FROM insiders
+# """
 
-conn = create_engine( endpoint)
+# df=pd.read_sql_query( query_collect, conn)
 
-query_create_table_insiders = """
-    CREATE TABLE IF NOT EXISTS insiders ( 
-       grossrevenue   REAL,
-       gross_returns    REAL,
-       recencydays    REAL,   
-       qtd_items   REAL,
-       qtd_items_return     REAL,
-       avg_ticket   REAL,
-       frequency       REAL,
-       avg_basket_size  REAL,
-       n_purchases_unique   REAL,
-       cluster         INTEGER
-   )
-"""
+# print("df collected", df.head())
 
+# conn.clear_compiled_cache()
 
-conn.execute( query_create_table_insiders )
-df9.to_sql( 'insiders', con=conn, if_exists='replace', index=False )
-query_collect = """
-SELECT * FROM insiders
-"""
-
-df=pd.read_sql_query( query_collect, conn)
-
-print("df collected", df.head())
-
-conn.clear_compiled_cache()
-
-
+print(df9.head())
 print('rodou tudo')
-
+print( m.silhouette_score(df8.drop('cluster', axis=1), df8['cluster']))
 
 
 
