@@ -9,9 +9,8 @@ RUN apt install -y git
 RUN sudo apt-get install libpq-dev python3 -y
 
 ##COPY . /opt/app
-RUN ECHO ls
 
-RUN pip install -r insiders_clustering/req_simple.txt
+##RUN pip install -r insiders_clustering/req_simple.txt
 
 
 CMD [ "python3", "insiders_clustering/run_deploy.py" ]
