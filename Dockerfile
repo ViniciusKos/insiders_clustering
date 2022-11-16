@@ -13,4 +13,4 @@ COPY . /opt/app
 RUN pip install -r req_simple.txt
 
 
-##CMD [ "python3", "run_deploy.py" ]
+CMD [ "python3", "run_deploy.py" ]
