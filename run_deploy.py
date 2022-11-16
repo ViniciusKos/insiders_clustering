@@ -17,7 +17,7 @@ from sklearn import metrics as m
 
 
 
-df0 = pd.parquet('data.csv')                                                                                                
+df0 = pd.read_parquet('data.csv')                                                                                                
 df0.columns=df0.columns.str.lower()
 df0.head(3)
 
