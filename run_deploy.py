@@ -11,13 +11,12 @@ from sklearn import metrics as m
 
 
 
-# cred = pd.read_csv("cred.csv", encoding='latin1')
-# aws_key_id = cred["Access key ID"][0]
-# aws_key_secret = cred["Secret access key"][0]
 
+#df0 = pd.read_parquet('data.parquet') 
 
+fs = s3fs.S3FileSystem(anon=False)
 
-df0 = pd.read_parquet('data.parquet')                                                                                                
+df0 = pd.read_parquet("s3://insiders-clustering-deploy/data.parquet")
 df0.columns=df0.columns.str.lower()
 df0.head(3)
 
