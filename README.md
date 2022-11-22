@@ -85,12 +85,10 @@ For this first CRISP-DM circle, KMeans was chosen since it has the biggest avera
 
 The Silhouette Plot below show us the silhouette shape for each clusterization by KMeans algorithm given the number of clusters.
 
-![image](https://user-images.githubusercontent.com/73034020/201514434-bcf18a83-8967-488a-89c2-0fc048649a4b.png)
-
-It was chosen the KMeans 
+![image](https://user-images.githubusercontent.com/73034020/203357222-74ec824c-8246-41c2-94d3-63ec1a112f9b.png)
 
 
-
+It was chosen the KMeans++ alongside the data reduced by an UMAP reducer.
 
 
 ## 6) Business Results.
