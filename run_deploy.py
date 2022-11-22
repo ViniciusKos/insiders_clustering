@@ -114,9 +114,10 @@ print(df5.shape)
 
 mms_cols=['recencydays','avg_ticket', 'frequency','avg_basket_size', 'n_purchases_unique','gross_revenue', 'gross_returns', 'qtd_items', 'qtd_items_return',]
 
+
        
 for i in mms_cols:
-     mms=pd.read_pickle(f"artifacts/{i}_minmax.pkl")
+     mms=pd.read_pickle(f"s3://insiders-clustering-deploy/artifacts/{i}_minmax.pkl")
      df5[[i]] = mms.transform(df5[[i]])
 
 
@@ -126,8 +127,8 @@ X=df5.drop(columns=['customerid'])
 # %%
 #km = pd.read_pickle(f"s3://insiders-clustering-deploy/artifacts/model.pkl")
 
-reducer = pd.read_pickle(f"artifacts/umap_reducer.pkl")
-km = pd.read_pickle(f"artifacts/model.pkl")
+reducer = pd.read_pickle(f"s3://insiders-clustering-deploy/artifacts/umap_reducer.pkl")
+km = pd.read_pickle(f"s3://insiders-clustering-deploy/artifacts/model.pkl")
 
 # %%
 df8=df5.copy()
