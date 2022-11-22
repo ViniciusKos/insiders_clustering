@@ -150,6 +150,7 @@ endpoint = f"postgresql://master:abc123456@dbinsiders.cegm6m2znhnj.sa-east-1.rds
 
 conn = create_engine( endpoint)
 
+ #create table
 query_create_table_insiders = """
     CREATE TABLE IF NOT EXISTS insiders ( 
        grossrevenue   REAL,
@@ -167,6 +168,7 @@ query_create_table_insiders = """
 
 
 conn.execute( query_create_table_insiders )
+
 df9.to_sql( 'insiders', con=conn, if_exists='replace', index=False )
 query_collect = """
 SELECT * FROM insiders
