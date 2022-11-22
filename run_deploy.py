@@ -146,7 +146,7 @@ for i in ['recencydays','qtd_items','qtd_items_return']:
     df9[i]=df9[i].astype(int)
 
 
-endpoint = f"postgresql://master:abc123456@dbinsiders.cegm6m2znhnj.sa-east-1.rds.amazonaws.com/postgresql"
+endpoint = f"postgresql://master:vinny123@dbinsiders.cegm6m2znhnj.sa-east-1.rds.amazonaws.com/postgresql"
 
 conn = create_engine( endpoint)
 
