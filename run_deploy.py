@@ -142,41 +142,41 @@ df8['cluster']=km.predict(df8)
 df9=df5.copy()
 df9['cluster']=df8['cluster']
 
-# for i in ['recencydays','qtd_items','qtd_items_return']:
-#     df9[i]=df9[i].astype(int)
+for i in ['recencydays','qtd_items','qtd_items_return']:
+    df9[i]=df9[i].astype(int)
 
 
-# endpoint = f"postgresql://dbfinal:dbfinal2@dbfinal.cegm6m2znhnj.sa-east-1.rds.amazonaws.com/postgres"
+endpoint = f"postgresql://master:abc123456@dbinsiders.cegm6m2znhnj.sa-east-1.rds.amazonaws.com/postgres"
 
-# conn = create_engine( endpoint)
+conn = create_engine( endpoint)
 
-# query_create_table_insiders = """
-#     CREATE TABLE IF NOT EXISTS insiders ( 
-#        grossrevenue   REAL,
-#        gross_returns    REAL,
-#        recencydays    REAL,   
-#        qtd_items   REAL,
-#        qtd_items_return     REAL,
-#        avg_ticket   REAL,
-#        frequency       REAL,
-#        avg_basket_size  REAL,
-#        n_purchases_unique   REAL,
-#        cluster         INTEGER
-#    )
-# """
+query_create_table_insiders = """
+    CREATE TABLE IF NOT EXISTS insiders ( 
+       grossrevenue   REAL,
+       gross_returns    REAL,
+       recencydays    REAL,   
+       qtd_items   REAL,
+       qtd_items_return     REAL,
+       avg_ticket   REAL,
+       frequency       REAL,
+       avg_basket_size  REAL,
+       n_purchases_unique   REAL,
+       cluster         INTEGER
+   )
+"""
 
 
-# conn.execute( query_create_table_insiders )
-# df9.to_sql( 'insiders', con=conn, if_exists='replace', index=False )
-# query_collect = """
-# SELECT * FROM insiders
-# """
+conn.execute( query_create_table_insiders )
+df9.to_sql( 'insiders', con=conn, if_exists='replace', index=False )
+query_collect = """
+SELECT * FROM insiders
+"""
 
-# df=pd.read_sql_query( query_collect, conn)
+df=pd.read_sql_query( query_collect, conn)
 
-# print("df collected", df.head())
+print("df collected", df.head())
 
-# conn.clear_compiled_cache()
+conn.clear_compiled_cache()
 
 print(df9.head())
 print('rodou tudo')
