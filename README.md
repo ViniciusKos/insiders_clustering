@@ -87,30 +87,18 @@ For this first CRISP-DM circle, KMeans was chosen since it has the biggest avera
 
 **Hyperparameter tuning and final model**
 
-The Silhouette Plot below show us the silhouette shape for each clusterization by KMeans algorithm given the number of clusters.
+The first approach with KMeans didn't result in good Silhouette Score (for more details, see Notebook section 7.1). Si the data was reduced by an UMAP Reducer and the 2 resulting components are shown below.
 
-![image](https://user-images.githubusercontent.com/73034020/203357222-74ec824c-8246-41c2-94d3-63ec1a112f9b.png)
+![image](https://user-images.githubusercontent.com/73034020/203521938-872ee227-426f-4314-8d44-08c8178458ec.png)
 
+The Silhouette Plot below show us the silhouette shape for each cluster using KMeans in the data reduced by UMAP.
 
-It was chosen the KMeans++ alongside the data reduced by an UMAP reducer.
+![image](https://user-images.githubusercontent.com/73034020/203522270-cfc982d9-9c89-4da6-8014-bcd38052ee4a.png)
 
+It resulted in a average's Silhouette Score of 0.51.
 
 ## 6) Business Results.
-After the prediction’s evaluation, we must translate the model performance to the business.
-One of the most intuitive ways to do so is by showing easier interpretable performance metrics like error and percentage error:
-error: sales-predictions
-error rate: predictions/sales  
 
-![image](https://user-images.githubusercontent.com/73034020/182585638-53d3052e-158b-4d9f-9f85-8514e723a9d1.png)  
-
-The top-left graph shows us the predictions are close to the real sales values.  
-The top-right graph shows us the prediction’s errors tend to underestimate the real sales value.  
-The bottom-left graph shows us the error predictions are mainly distributed around 0, which is a very good indicator.  
-The bottom-right graph shows us the model performance is consistent through all sales magnitude sizes.  
-
-Overall, the model performed well (better than a simple average prediction), however following the CRISP methodology, if a new round is needed, it may be considered to train stores individually or even in groups of them, for example. Another possibility is to explore other machine learning models as well as new features.
-
-Further details on business performance are available in the notebook.
 
 ## 7) Deploy on AWS
 Infrastructure and planning
