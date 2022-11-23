@@ -87,7 +87,7 @@ For this first CRISP-DM circle, KMeans was chosen since it has the biggest avera
 
 **Hyperparameter tuning and final model**
 
-The first approach with KMeans didn't result in good Silhouette Score (for more details, see Notebook section 7.1). Si the data was reduced by an UMAP Reducer and the 2 resulting components are shown below.
+The first approach with KMeans didn't result in good Silhouette Score (for more details, see Notebook section 7.1). So the data was reduced by an UMAP Reducer and the 2 resulting components are shown below.
 
 ![image](https://user-images.githubusercontent.com/73034020/203521938-872ee227-426f-4314-8d44-08c8178458ec.png)
 
