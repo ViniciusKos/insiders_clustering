@@ -6,6 +6,10 @@
 ## 1) Business Issue
 Select the most valuable customers for a loyalty program.
 
+Business Assumptions:
+Invoice dates are between 2016-11-29 and 2017-12-07;
+Negative unit price values are considered returns
+
 ## 2) Solution methodology
 The resolution of the challenge was carried out following the CRISP-DM (CRoss-Industry Standard Process for data mining) methodology, which is a cyclical approach that streamlines the delivery of value to the business through fast and valuable MVPs.
 
