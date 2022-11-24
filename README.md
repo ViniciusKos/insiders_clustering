@@ -99,6 +99,17 @@ It resulted in a average's Silhouette Score of 0.51.
 
 ## 6) Business Results.
 
+Cluster Personas: Every cluster characteristc should drive a marketing action.
+
+Cluster 0: Lazies, High period between purchases.
+Cluster 1: Itens Devourers, Highest qt. of items bought,
+Cluster 2: Engageds, Highest buy frequency
+Cluster 4: Insiders Cluster, most valuable customers with highest profit brought
+Clusters 3,5,6: Base customers, No highlights.
+
+
+
+
 
 ## 7) Deploy on AWS
 Infrastructure and planning
