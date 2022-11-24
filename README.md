@@ -99,16 +99,16 @@ It resulted in a average's Silhouette Score of 0.51.
 
 ## 6) Business Results.
 
+In a real business context, we could present these clusters (mainly the Insiders one) to the business/CRM/marketing team and let them decide what should be done regarding marketing actions and customer delight programs.
 Cluster Personas: Every cluster characteristc should drive a marketing action.
 
-Cluster 0: Lazies, High period between purchases.
-Cluster 1: Itens Devourers, Highest qt. of items bought,
-Cluster 2: Engageds, Highest buy frequency
-Cluster 4: Insiders Cluster, most valuable customers with highest profit brought
-Clusters 3,5,6: Base customers, No highlights.
+The cluster 2 is the most valuable customer cluster, the INSIDERS one. They are responsible for 65% of profit share and it represents 30% of all customers.
+The Cluster 1 has the highest avr_ticket and highest frequency of purchase, they are very engaged and almost part of the Insiders Cluster.
+The cluster 3 has the highest recency days between the last purchase, low engagement.
+The remaining clusters (0, 4, 5) has no highlights but should be monitored.
 
-
-
+Cluster Dashboard:
+![image](https://user-images.githubusercontent.com/73034020/203866250-57c61fd1-6746-4fb7-ac20-f0e12d392aea.png)
 
 
 ## 7) Deploy on AWS
