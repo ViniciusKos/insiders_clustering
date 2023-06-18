@@ -39,8 +39,27 @@ dbDisconnect(mydb)
 # Create dashboard
 
 header <- dashboardHeader()
-sidebar <- dashboardSidebar()
-body <- dashboardBody()
+sidebar <- dashboardSidebar(
+  sidebarMenu(
+    # Create two `menuItem()`s, "Dashboard" and "data"
+    menuItem(text = "Dashboard",
+             tabName = "dashboard"
+    ), 
+    menuItem(text = "Data", 
+             tabName = "data"
+    )
+  )
+)
+
+
+body <- dashboardBody(
+  tabItems(
+    # Add two tab items, one with `tabName` "dashboard" and one with `tabName` "data"
+    tabItem(tabName = "dashboard"),
+    tabItem(tabName = "data")
+  )
+)
+
 
 ui <- dashboardPage( header, sidebar, body)
 
