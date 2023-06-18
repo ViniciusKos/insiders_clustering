@@ -8,71 +8,43 @@
 #
 
 setwd("P:/Python/GitHub/insiders_clustering/app")
-renv::init("P:/Python/GitHub/insiders_clustering/app")
-renv::snapshot()
-renv::status()
-renv::restore()
+# renv::init("P:/Python/GitHub/insiders_clustering/app")
+# renv::snapshot()
+# renv::status()
+# renv::restore()
+# install.packages("RSQLite")
+# install.packages("shinydashboard")
+# Load Packages 
 library(shiny)
-
 library(DBI)
-install.packages("RSQLite")
+library(shinydashboard)
 
+
+# Query data in Database
 
 mydb <- dbConnect(RSQLite::SQLite(), "P:/Python/GitHub/insiders_clustering/insiders_cluster.db")
-
 dbGetQuery(mydb, "SELECT 
     name
 FROM 
-    sqlite_master 
+    sqlite_master
 WHERE 
     type ='table' AND 
     name NOT LIKE 'sqlite_%';")
 
 df <- dbGetQuery(mydb, "SELECT * FROM insiders")
-head(df)
-
 
 dbDisconnect(mydb)
 
 
+# Create dashboard
 
-# Define UI for application that draws a histogram
-ui <- fluidPage(
+header <- dashboardHeader()
+sidebar <- dashboardSidebar()
+body <- dashboardBody()
 
-    # Application title
-    titlePanel("Old Faithful Geyser Data"),
+ui <- dashboardPage( header, sidebar, body)
 
-    # Sidebar with a slider input for number of bins 
-    sidebarLayout(
-        sidebarPanel(
-            sliderInput("bins",
-                        "Number of bins:",
-                        min = 1,
-                        max = 50,
-                        value = 30)
-        ),
+server <- function( input, output, session) {}
 
-        # Show a plot of the generated distribution
-        mainPanel(
-           plotOutput("distPlot")
-        )
-    )
-)
+shinyApp( ui, server)
 
-# Define server logic required to draw a histogram
-server <- function(input, output) {
-
-    output$distPlot <- renderPlot({
-        # generate bins based on input$bins from ui.R
-        x    <- faithful[, 2]
-        bins <- seq(min(x), max(x), length.out = input$bins + 1)
-
-        # draw the histogram with the specified number of bins
-        hist(x, breaks = bins, col = 'darkgray', border = 'white',
-             xlab = 'Waiting time to next eruption (in mins)',
-             main = 'Histogram of waiting times')
-    })
-}
-
-# Run the application 
-shinyApp(ui = ui, server = server)
