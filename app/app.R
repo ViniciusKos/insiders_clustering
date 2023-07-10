@@ -7,10 +7,8 @@
 #    http://shiny.rstudio.com/
 #
 
-#install.packages("ztable")
 
-library(ztable)
-
+#install.packages("shinydashboard")
 
 setwd("P:/Python/GitHub/insiders_clustering/app")
 # renv::init("P:/Python/GitHub/insiders_clustering/app")
@@ -26,6 +24,9 @@ library(DBI)
 library(magrittr) # needs to be run every time you start R and want to use %>%
 library(dplyr)    # alternatively, this also loads %>%
 library(tidyr)
+library(shinydashboard)
+library(flexdashboard)
+library(scales)
 
 # Query data in Database
 
@@ -60,19 +61,40 @@ last_modified <- file_info$mtime
 print(last_modified)
 
 
-df2 <- data.frame(df)
 
-colnames(df)
+df2 <- data.frame(df) %>% group_by(cluster) %>% 
+  summarise(across(everything(), mean, .names = "{.col}"),customers = n()) %>% 
+  select(c("cluster","customers","gross_revenue", "recencydays", "n_purchases_unique","qtd_items", "qtd_items_return")) %>% 
+  ungroup()
+df2
 
-df2 <- df2 %>% pivot_wider( id_cols = cluster, 
-                            values_from = c("gross_revenue","recencydays","n_purchases_unique","qtd_items","qtd_items_return"),
-                            values_fn = mean )
-
+qtd_total_customers
 
 # Create dashboard
-ui <- fluidPage()
 
-server <- function( input, output, session) {}
+header <- dashboardHeader()
+
+sidebar <- dashboardSidebar(disable = TRUE)
+
+body <- dashboardBody(
+  fluidRow(
+    infoBox("Total Customers", value=qtd_total_customers, subtitle="customers", icon = icon("people-group",verify_fa = FALSE), color="light-blue", width=3),
+    infoBox("Loyal Customers", value=qtd_loyal_customers, subtitle="customers", icon = icon("crown",verify_fa = FALSE), color="light-blue", width=3),
+    infoBox("Proportion loyal", value=label_percent()(proportion_loyal), icon = icon("percent",verify_fa = FALSE), color="light-blue", width=3),
+    infoBox("Distinct Groups", value=distincts_clusters, icon = icon("user-group",verify_fa = FALSE), color="light-blue", width=3)
+  ))
+
+
+
+ui <- dashboardPage( header, sidebar, body)
+  
+
+
+
+server <- function( input, output, session) {
+  output$total_customers <- renderInfoBox({
+    infoBox("Total Customers")})
+}
 
 
 shinyApp( ui, server)
