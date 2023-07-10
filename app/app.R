@@ -68,6 +68,7 @@ df2 <- data.frame(df) %>% group_by(cluster) %>%
   ungroup()
 df2
 
+
 qtd_total_customers
 
 # Create dashboard
@@ -82,6 +83,13 @@ body <- dashboardBody(
     infoBox("Loyal Customers", value=qtd_loyal_customers, subtitle="customers", icon = icon("crown",verify_fa = FALSE), color="light-blue", width=3),
     infoBox("Proportion loyal", value=label_percent()(proportion_loyal), icon = icon("percent",verify_fa = FALSE), color="light-blue", width=3),
     infoBox("Distinct Groups", value=distincts_clusters, icon = icon("user-group",verify_fa = FALSE), color="light-blue", width=3)
+  ),
+  fluidRow(
+    box(
+      width = 12, status = "info", solidHeader = TRUE, fill='light-blue',
+      title = "Popularity by package (last 5 min)",
+      plotOutput("heatmap_customers", width = "100%", height = 600)
+    ),
   ))
 
 
@@ -92,10 +100,9 @@ ui <- dashboardPage( header, sidebar, body)
 
 
 server <- function( input, output, session) {
-  output$total_customers <- renderInfoBox({
-    infoBox("Total Customers")})
-}
-
+  output$heatmap_customers <- renderPlot( ggplot(df2, aes(cluster, recencydays, fill= gross_revenue)) + 
+                                           geom_tile() )
+  }
 
 shinyApp( ui, server)
 
