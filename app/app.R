@@ -36,11 +36,12 @@ dbDisconnect(mydb)
 
 head(df)
 
+
 distincts_clusters <- length(unique(df[["cluster"]]))
 
 qtd_total_customers <- df %>% nrow()
 
-qtd_loyal_customers <- df %>% filter(cluster==2) %>% nrow()
+qtd_loyal_customers <- df %>% filter(cluster==3) %>% nrow()
 
 proportion_loyal <- qtd_loyal_customers/qtd_total_customers %>% trunc(digits=2)
 
@@ -57,7 +58,14 @@ df2 <- data.frame(df) %>% group_by(cluster) %>%
   summarise(across(everything(), mean, .names = "{.col}"),customers = n()) %>% 
   select(c("cluster","customers","gross_revenue", "recencydays", "n_purchases_unique","qtd_items", "qtd_items_return")) %>% 
   ungroup()
+df2$cluster <- df2$cluster+1
+df2$recencyweeks <- df2$recencydays/7
 df2
+
+cl <- "cluster"
+
+df2[[cl]]
+
 
 
 qtd_total_customers
@@ -77,44 +85,62 @@ body <- dashboardBody(
   ),
   fluidRow(
     box(
-      title = "Revenue Comparison",
+      title = "Number of Customers",
       status = "primary",
       solidHeader = TRUE,
-      width = 6,
-      plotlyOutput(outputId = "revenue_plot")
+      width = 4,
+      plotlyOutput(outputId = "customer_plot")
     ),
-  ))
-
+      box(
+        title = "Revenue Comparison",
+        status = "primary",
+        solidHeader = TRUE,
+        width = 4,
+        plotlyOutput(outputId = "revenue_plot")
+      ),
+    box(
+      title = "Recency Weeks",
+      status = "primary",
+      solidHeader = TRUE,
+      width = 4,
+      plotlyOutput(outputId = "recency_plot")
+    ))
+  )
 
 ui <- dashboardPage( header, sidebar, body)
 
 
 server <- function( input, output, session) {
-  output$revenue_plot <- renderPlotly({
+    variablex <- "gross_revenue"
+    output$revenue_plot <- renderPlotly({
+    max_revenue <- max(cluster_data$variablex)
+    colors <- ifelse(cluster_data$variablex == max_satisfaction, "#1F77B4", "#AEC6CF")
     plot_ly(
-      data = df2,
-      x = ~cluster,
-      y = ~gross_revenue,
+      data = cluster_data,
+      x = ~variablex,
+      y = ~cluster,
       type = "bar",
-      name = "Revenue",
-      marker = list(color = "#007BFF")
+      name = variablex,
+      orientation = "h",
+      marker = list(color = colors)
     ) %>%
       layout(
-        title = "Revenue Comparison",
-        xaxis = list(title = "Cluster"),
-        yaxis = list(title = "Revenue"),
+        title = paste0("{variablex}, Comparison"),
+        xaxis = list(title = variablex),
+        yaxis = list(title = "Cluster"),
         annotations = list(
-          x = df2$cluster,
-          y = df2$gross_revenue,
-          text = df2$gross_revenue,
+          x = cluster_data$Satisfaction,
+          y = cluster_data$Cluster,
+          text = cluster_data$Satisfaction,
           showarrow = FALSE,
           font = list(size = 12, color = "black")
         )
       )
   })
+}
   
-  }
-
+  
+df2
 
 
 shinyApp( ui, server)
