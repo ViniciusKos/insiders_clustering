@@ -1,32 +1,23 @@
-#
-# This is a Shiny web application. You can run the application by clicking
-# the 'Run App' button above.
-#
-# Find out more about building applications with Shiny here:
-#
-#    http://shiny.rstudio.com/
-#
 
 
-#install.packages("shinydashboard")
 
 setwd("P:/Python/GitHub/insiders_clustering/app")
 # renv::init("P:/Python/GitHub/insiders_clustering/app")
 # renv::snapshot()
 # renv::status()
 # renv::restore()
-# install.packages("RSQLite")
-# install.packages("shinydashboard")
+
 # Load Packages 
 library(shiny)
 library(ggplot2)
 library(DBI)
 library(magrittr) # needs to be run every time you start R and want to use %>%
 library(dplyr)    # alternatively, this also loads %>%
-library(tidyr)
 library(shinydashboard)
-library(flexdashboard)
 library(scales)
+library(viridis)
+library(plotly)
+
 
 # Query data in Database
 
@@ -73,7 +64,7 @@ qtd_total_customers
 
 # Create dashboard
 
-header <- dashboardHeader()
+header <- dashboardHeader( title = "Insiders Clustering" )
 
 sidebar <- dashboardSidebar(disable = TRUE)
 
@@ -86,23 +77,44 @@ body <- dashboardBody(
   ),
   fluidRow(
     box(
-      width = 12, status = "info", solidHeader = TRUE, fill='light-blue',
-      title = "Popularity by package (last 5 min)",
-      plotOutput("heatmap_customers", width = "100%", height = 600)
+      title = "Revenue Comparison",
+      status = "primary",
+      solidHeader = TRUE,
+      width = 6,
+      plotlyOutput(outputId = "revenue_plot")
     ),
   ))
 
 
-
 ui <- dashboardPage( header, sidebar, body)
-  
-
 
 
 server <- function( input, output, session) {
-  output$heatmap_customers <- renderPlot( ggplot(df2, aes(cluster, recencydays, fill= gross_revenue)) + 
-                                           geom_tile() )
+  output$revenue_plot <- renderPlotly({
+    plot_ly(
+      data = df2,
+      x = ~cluster,
+      y = ~gross_revenue,
+      type = "bar",
+      name = "Revenue",
+      marker = list(color = "#007BFF")
+    ) %>%
+      layout(
+        title = "Revenue Comparison",
+        xaxis = list(title = "Cluster"),
+        yaxis = list(title = "Revenue"),
+        annotations = list(
+          x = df2$cluster,
+          y = df2$gross_revenue,
+          text = df2$gross_revenue,
+          showarrow = FALSE,
+          font = list(size = 12, color = "black")
+        )
+      )
+  })
+  
   }
 
-shinyApp( ui, server)
 
+
+shinyApp( ui, server)
