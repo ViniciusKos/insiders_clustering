@@ -21,7 +21,7 @@ library(plotly)
 
 # Query data in Database
 
-mydb <- dbConnect(RSQLite::SQLite(), "P:/Python/GitHub/insiders_clustering/insiders_cluster.db")
+mydb <- dbConnect(RSQLite::SQLite(), "../insiders_cluster.db")
 dbGetQuery(mydb, "SELECT 
     name
 FROM 
@@ -72,7 +72,7 @@ sidebar <- dashboardSidebar(disable = TRUE)
 body <- dashboardBody(
   fluidRow(
     infoBox("Total Customers", value=qtd_total_customers, subtitle="customers", icon = icon("people-group",verify_fa = FALSE), color="light-blue", width=3),
-    infoBox("Loyal Customers", value=qtd_loyal_customers, subtitle="customers", icon = icon("crown",verify_fa = FALSE), color="light-blue", width=3),
+    infoBox("Loyal Customers (Cluster 3)", value=qtd_loyal_customers, subtitle="customers", icon = icon("crown",verify_fa = FALSE), color="light-blue", width=3),
     infoBox("Proportion loyal", value=label_percent()(proportion_loyal), icon = icon("percent",verify_fa = FALSE), color="light-blue", width=3),
     infoBox("Distinct Groups", value=distincts_clusters, icon = icon("user-group",verify_fa = FALSE), color="light-blue", width=3)
   ),
@@ -85,7 +85,7 @@ body <- dashboardBody(
       plotlyOutput(outputId = "customer_plot")
     ),
       box(
-        title = "Avg. Gross Revenue by Cluster",
+        title = "Avg. Customer Gross Revenue by Cluster",
         status = "primary",
         solidHeader = TRUE,
         width = 4,
