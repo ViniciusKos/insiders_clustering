@@ -62,6 +62,7 @@ df2$cluster <- df2$cluster+1
 df2$recencyweeks <- df2$recencydays/7
 df2
 
+
 cl <- "cluster"
 
 df2[[cl]]
@@ -111,31 +112,45 @@ ui <- dashboardPage( header, sidebar, body)
 
 
 server <- function( input, output, session) {
+  
+    
+    colors1 <- ifelse(df2[[variablex]] == max(df2[variablex]), "#1F77B4", "#AEC6CF")
+    
+    
+    output$customer_plot <- renderPlotly({
+      plot_ly(df2, x = ~customers, y = ~cluster, type = 'bar',
+              orientation = 'h',
+              marker = list(color = colors1)) %>%
+        layout(title = "Customers by Cluster",
+               xaxis = list(title = "Number of Customers"),
+               yaxis = list(title = "Cluster"),
+               annotations = list(
+                 x = df2[[variablex]],
+                 y = df2$cluster,
+                 text = round(df2[[variablex]]),
+                 showarrow = FALSE,
+                 font = list(size = 12, color = "black"
+                             )))})
+  
     variablex <- "gross_revenue"
+    colors <- ifelse(df2[[variablex]] == max(df2[variablex]), "#1F77B4", "#AEC6CF")
+    
+
     output$revenue_plot <- renderPlotly({
-    max_revenue <- max(cluster_data$variablex)
-    colors <- ifelse(cluster_data$variablex == max_satisfaction, "#1F77B4", "#AEC6CF")
-    plot_ly(
-      data = cluster_data,
-      x = ~variablex,
-      y = ~cluster,
-      type = "bar",
-      name = variablex,
-      orientation = "h",
-      marker = list(color = colors)
-    ) %>%
-      layout(
-        title = paste0("{variablex}, Comparison"),
-        xaxis = list(title = variablex),
-        yaxis = list(title = "Cluster"),
-        annotations = list(
-          x = cluster_data$Satisfaction,
-          y = cluster_data$Cluster,
-          text = cluster_data$Satisfaction,
-          showarrow = FALSE,
-          font = list(size = 12, color = "black")
-        )
-      )
+    plot_ly(df2, x = ~gross_revenue, y = ~cluster, type = 'bar',
+            orientation = 'h',
+            marker = list(color = colors)) %>%
+      layout(title = "Gross_Revenue by Cluster",
+             xaxis = list(title = "Gross Revenue $"),
+             yaxis = list(title = "Cluster"),
+             annotations = list(
+               x = df2[[variablex]],
+               y = df2$cluster,
+               text = round(df2[[variablex]]),
+               showarrow = FALSE,
+               font = list(size = 12, color = "black")))
+        
+      
   })
 }
   
