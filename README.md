@@ -114,7 +114,8 @@ Cluster Dashboard:
 ## 7) Deploy on AWS
 Infrastructure and planning
 
-![image](https://user-images.githubusercontent.com/73034020/201500041-b9fb40a1-26ee-476b-98b5-584df9b64add.png)
+![image](https://github.com/ViniciusKos/insiders_clustering/assets/73034020/929a53f0-97b7-4dca-b272-0fe9ddde0765)
+
 
 
 
