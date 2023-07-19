@@ -113,9 +113,9 @@ ui <- dashboardPage( header, sidebar, body)
 
 server <- function( input, output, session) {
   
-    
-    colors1 <- ifelse(df2[[variablex]] == max(df2[variablex]), "#1F77B4", "#AEC6CF")
-    
+  df2["customers"]
+  
+    colors1 <- ifelse(df2[["customers"]] == max(df2["customers"]), "#1F77B4", "#AEC6CF")
     
     output$customer_plot <- renderPlotly({
       plot_ly(df2, x = ~customers, y = ~cluster, type = 'bar',
@@ -125,37 +125,50 @@ server <- function( input, output, session) {
                xaxis = list(title = "Number of Customers"),
                yaxis = list(title = "Cluster"),
                annotations = list(
-                 x = df2[[variablex]],
-                 y = df2$cluster,
-                 text = round(df2[[variablex]]),
+                 x = df2[["customers"]],
+                 y = df2[["cluster"]],
+                 text = round(df2[["customers"]]),
                  showarrow = FALSE,
                  font = list(size = 12, color = "black"
                              )))})
-  
-    variablex <- "gross_revenue"
-    colors <- ifelse(df2[[variablex]] == max(df2[variablex]), "#1F77B4", "#AEC6CF")
     
-
+    colors2 <- ifelse(df2[["gross_revenue"]] == max(df2["gross_revenue"]), "#1F77B4", "#AEC6CF")
+    
     output$revenue_plot <- renderPlotly({
     plot_ly(df2, x = ~gross_revenue, y = ~cluster, type = 'bar',
             orientation = 'h',
-            marker = list(color = colors)) %>%
+            marker = list(color = colors2)) %>%
       layout(title = "Gross_Revenue by Cluster",
              xaxis = list(title = "Gross Revenue $"),
              yaxis = list(title = "Cluster"),
              annotations = list(
-               x = df2[[variablex]],
-               y = df2$cluster,
-               text = round(df2[[variablex]]),
+               x = df2[["gross_revenue"]],
+               y = df2[["cluster"]],
+               text = round(df2[["gross_revenue"]]),
                showarrow = FALSE,
-               font = list(size = 12, color = "black")))
-        
+               font = list(size = 12, color = "black")))})
       
-  })
+      
+      colors3 <- ifelse(df2[["recencydays"]] == max(df2["recencydays"]), "#1F77B4", "#AEC6CF")
+      
+      variablex <- "recencyweeks"
+      
+      output$recency_plot <- renderPlotly({
+        plot_ly(df2, x = ~recencydays, y = ~cluster, type = 'bar',
+                orientation = 'h',
+                marker = list(color = colors3)) %>%
+          layout(title = "Recency Weeks by Cluster",
+                 xaxis = list(title = "Recency Weeks"),
+                 yaxis = list(title = "Cluster"),
+                 annotations = list(
+                   x = df2[[variablex]],
+                   y = df2[["cluster"]],
+                   text = round(df2[[variablex]]),
+                   showarrow = FALSE,
+                   font = list(size = 12, color = "black")
+                    ))})
+      
 }
-  
-  
-df2
 
 
 shinyApp( ui, server)
