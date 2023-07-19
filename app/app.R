@@ -1,11 +1,10 @@
 
 
 
-setwd("P:/Python/GitHub/insiders_clustering/app")
 # renv::init("P:/Python/GitHub/insiders_clustering/app")
 # renv::snapshot()
 # renv::status()
-# renv::restore()
+renv::restore()
 
 # Load Packages 
 library(shiny)
