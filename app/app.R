@@ -60,16 +60,8 @@ df2 <- data.frame(df) %>% group_by(cluster) %>%
   ungroup()
 df2$cluster <- df2$cluster+1
 df2$recencyweeks <- df2$recencydays/7
-df2
 
 
-cl <- "cluster"
-
-df2[[cl]]
-
-
-
-qtd_total_customers
 
 # Create dashboard
 
@@ -93,36 +85,53 @@ body <- dashboardBody(
       plotlyOutput(outputId = "customer_plot")
     ),
       box(
-        title = "Revenue Comparison",
+        title = "Avg. Gross Revenue by Cluster",
         status = "primary",
         solidHeader = TRUE,
         width = 4,
         plotlyOutput(outputId = "revenue_plot")
       ),
     box(
-      title = "Recency Weeks",
+      title = "Avg. Recency Weeks by Cluster",
       status = "primary",
       solidHeader = TRUE,
       width = 4,
       plotlyOutput(outputId = "recency_plot")
-    ))
-  )
+    )),
+    fluidRow(
+      box(
+        title = "Avg. Qtd of Purchases by Cluster",
+        status = "primary",
+        solidHeader = TRUE,
+        width = 4,
+        plotlyOutput(outputId = "purchases_plot")
+      ),
+      box(
+        title = "Avg. Qtd of Unique Purchases by Cluster",
+        status = "primary",
+        solidHeader = TRUE,
+        width = 4,
+        plotlyOutput(outputId = "unique_purchases_plot")
+      ),
+      box(
+        title = "Avg. Qtd. Items Return by Cluster",
+        status = "primary",
+        solidHeader = TRUE,
+        width = 4,
+        plotlyOutput(outputId = "return_plot"))))
+
 
 ui <- dashboardPage( header, sidebar, body)
 
 
 server <- function( input, output, session) {
   
-  df2["customers"]
-  
-    colors1 <- ifelse(df2[["customers"]] == max(df2["customers"]), "#1F77B4", "#AEC6CF")
-    
+
     output$customer_plot <- renderPlotly({
       plot_ly(df2, x = ~customers, y = ~cluster, type = 'bar',
               orientation = 'h',
-              marker = list(color = colors1)) %>%
-        layout(title = "Customers by Cluster",
-               xaxis = list(title = "Number of Customers"),
+              marker = list(color = ifelse(df2[["customers"]] == max(df2["customers"]), "#1F77B4", "#AEC6CF"))) %>%
+        layout(xaxis = list(title = "Number of Customers"),
                yaxis = list(title = "Cluster"),
                annotations = list(
                  x = df2[["customers"]],
@@ -132,14 +141,12 @@ server <- function( input, output, session) {
                  font = list(size = 12, color = "black"
                              )))})
     
-    colors2 <- ifelse(df2[["gross_revenue"]] == max(df2["gross_revenue"]), "#1F77B4", "#AEC6CF")
     
     output$revenue_plot <- renderPlotly({
     plot_ly(df2, x = ~gross_revenue, y = ~cluster, type = 'bar',
             orientation = 'h',
-            marker = list(color = colors2)) %>%
-      layout(title = "Gross_Revenue by Cluster",
-             xaxis = list(title = "Gross Revenue $"),
+            marker = list(color = ifelse(df2[["gross_revenue"]] == max(df2["gross_revenue"]), "#1F77B4", "#AEC6CF"))) %>%
+      layout(xaxis = list(title = "Avg. of Gross Revenue ($)"),
              yaxis = list(title = "Cluster"),
              annotations = list(
                x = df2[["gross_revenue"]],
@@ -148,25 +155,66 @@ server <- function( input, output, session) {
                showarrow = FALSE,
                font = list(size = 12, color = "black")))})
       
-      
-      colors3 <- ifelse(df2[["recencydays"]] == max(df2["recencydays"]), "#1F77B4", "#AEC6CF")
-      
-      variablex <- "recencyweeks"
-      
+    
       output$recency_plot <- renderPlotly({
-        plot_ly(df2, x = ~recencydays, y = ~cluster, type = 'bar',
+        plot_ly(df2, x = ~recencyweeks, y = ~cluster, type = 'bar',
                 orientation = 'h',
-                marker = list(color = colors3)) %>%
-          layout(title = "Recency Weeks by Cluster",
-                 xaxis = list(title = "Recency Weeks"),
+                marker = list(color = ifelse(df2[["recencyweeks"]] == max(df2["recencyweeks"]), "#1F77B4", "#AEC6CF"))) %>%
+          layout(xaxis = list(title = "Avg. of Recency Weeks"),
                  yaxis = list(title = "Cluster"),
                  annotations = list(
-                   x = df2[[variablex]],
+                   x = df2[["recencyweeks"]],
                    y = df2[["cluster"]],
-                   text = round(df2[[variablex]]),
+                   text = round(df2[["recencyweeks"]]),
                    showarrow = FALSE,
                    font = list(size = 12, color = "black")
                     ))})
+      
+      output$purchases_plot <- renderPlotly({
+        plot_ly(df2, x = ~qtd_items, y = ~cluster, type = 'bar',
+                orientation = 'h',
+                marker = list(color = ifelse(df2[["qtd_items"]] == max(df2["qtd_items"]), "#1F77B4", "#AEC6CF"))) %>%
+          layout(
+            xaxis = list(title = "Avg. of qtd. items purchased"),
+            yaxis = list(title = "Cluster"),
+            annotations = list(
+              x = df2[["qtd_items"]],
+              y = df2[["cluster"]],
+              text = round(df2[["qtd_items"]]),
+              showarrow = FALSE,
+              font = list(size = 12, color = "black")
+            ))})
+
+      
+      output$unique_purchases_plot <- renderPlotly({
+        plot_ly(df2, x = ~n_purchases_unique, y = ~cluster, type = 'bar',
+                orientation = 'h',
+                marker = list(color = ifelse(df2[["n_purchases_unique"]] == max(df2["n_purchases_unique"]), "#1F77B4", "#AEC6CF"))) %>%
+          layout(xaxis = list(title = "Avg. of Unique items purchased"),
+                 yaxis = list(title = "Cluster"),
+                 annotations = list(
+                   x = df2[["n_purchases_unique"]],
+                   y = df2[["cluster"]],
+                   text = round(df2[["n_purchases_unique"]]),
+                   showarrow = FALSE,
+                   font = list(size = 12, color = "black")
+                 ))})
+      
+
+      
+      output$return_plot <- renderPlotly({
+        plot_ly(df2, x = ~qtd_items_return, y = ~cluster, type = 'bar',
+                orientation = 'h',
+                marker = list(color = ifelse(df2[["qtd_items_return"]] == max(df2["qtd_items_return"]), "#1F77B4", "#AEC6CF"))) %>%
+          layout(xaxis = list(title = "Avg. of Qtd. Items returned"),
+                 yaxis = list(title = "Cluster"),
+                 annotations = list(
+                   x = df2[["qtd_items_return"]],
+                   y = df2[["cluster"]],
+                   text = round(df2[["qtd_items_return"]]),
+                   showarrow = FALSE,
+                   font = list(size = 12, color = "black")
+                 ))})
       
 }
 
