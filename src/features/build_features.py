@@ -47,17 +47,19 @@ def build_features(data):
      df_ref = df_ref.merge(df_aux[['customerid', 'n_purchases_unique']].drop_duplicates(), how='left', on='customerid')
 
 
-     #avg ticket
-     df_ref['avg_ticket']=df_ref['gross_revenue']/(df_ref['qtd_items']-df_ref['qtd_returns'])
-     df_ref['avg_ticket']=df_ref['avg_ticket'].replace([np.inf, -np.inf], 0) 
-
-
      #qtd items returns
      df_ref = df_ref.loc[:, df_ref.columns != "gross_returns"]
      returns = data.loc[data['quantity'] < 0, :]
      returns['qtd_returns'] = returns['quantity']*-1
      df_returns = returns[['customerid', 'qtd_returns']].groupby( 'customerid').sum().reset_index()
      df_ref = df_ref.merge(df_returns,on='customerid',how='left').fillna(0)
+
+     #avg ticket
+     df_ref['avg_ticket']=df_ref['gross_revenue']/(df_ref['qtd_items']-df_ref['qtd_returns'])
+     df_ref['avg_ticket']=df_ref['avg_ticket'].replace([np.inf, -np.inf], 0) 
+
+
+
      
 
      return df_ref
