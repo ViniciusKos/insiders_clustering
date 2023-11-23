@@ -2,7 +2,6 @@ import pandas as pd
 import numpy as np
 
 
-
 def build_features(data):
 
      # Create a DataFrame df_ref containing unique customer IDs from data
@@ -57,7 +56,7 @@ def build_features(data):
 
      #avg ticket
      df_ref['avg_ticket']=df_ref['gross_revenue']/(df_ref['qtd_items']-df_ref['qtd_returns'])
-     df_ref['avg_ticket']=df_ref['avg_ticket'].replace([np.inf, -np.inf], 0) 
-
+     df_ref['avg_ticket']=df_ref['avg_ticket'].replace([np.inf, -np.inf], 0)
+     df_ref = df_ref.fillna(0)
 
      return df_ref
