@@ -22,9 +22,9 @@ def home():
 def predict_api():
     data = request.json["data"]
     print(data)
-    print(data.__class__)
-    print(np.array(list(data.values())).reshape(1, -1))
-    data_frame = pd.DataFrame(data)
+    #print(data.__class__)
+    #print(np.array(list(data.values())).reshape(1, -1))
+    data_frame = pd.DataFrame.from_dict(data)
     print(data_frame)
 
     output = pipe.data_cleaning(data_frame)
