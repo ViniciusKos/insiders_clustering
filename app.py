@@ -22,10 +22,12 @@ def home():
 def predict_api():
     data = request.json["data"]
     print(data)
-    print(np.array(np.list(data.values())).reshape(1, -1))
+    print(data.__class__)
+    print(np.array(list(data.values())).reshape(1, -1))
+    data_frame = pd.DataFrame(data)
+    print(data_frame)
 
-
-    output = pipe.data_cleaning(np.array(list(data.values())).reshape(1, -1))
+    output = pipe.data_cleaning(data_frame)
 
 
     print(output[0])
