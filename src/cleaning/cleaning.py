@@ -13,7 +13,6 @@ def treat_na_customerid(data):
 
     # merge original with reference datafarme
     data = data.merge(df_backup, on='invoiceno', how='left')
-    print(data.shape)
 
     #coalesce
     data['customerid'] = data['customerid_x'].combine_first( data['customerid_y'])
@@ -25,13 +24,12 @@ def treat_na_customerid(data):
 
 def assign_correct_dtype(data):
 
-    print(data.shape)
+
     data['invoicedate'] = data['invoicedate'].str.split(expand=True)[0]
     data['invoicedate'] = pd.to_datetime( data['invoicedate'], format="%m/%d/%Y",errors='coerce')
     data['customerid'] = data['customerid'].astype(int)
     data = data[~data['invoiceno'].str.contains('[^0-9]+', na=False)]
     data = data.drop( columns='description', axis=1 )
-    print(data.shape)
     return data
 
 

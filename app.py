@@ -21,17 +21,20 @@ def home():
 
 def predict_api():
     data = request.json["data"]
-    print(data)
-    #print(data.__class__)
-    #print(np.array(list(data.values())).reshape(1, -1))
+ 
+ 
     data_frame = pd.DataFrame.from_dict(data)
+
+
+    data_cleaned = pipe.data_cleaning(data_frame)
+    data_features_added = pipe.feature_creation(data_cleaned)
+    data_prepared = pipe.data_preparation(data_features_added)
+    prediction = pipe.predict(data_prepared)
+
+
     print(data_frame)
-
-    output = pipe.data_cleaning(data_frame)
-
-
-    print(output[0])
-    return jsonify(output[0])
+    print(f"prediction is {prediction}")
+    return jsonify(prediction)
 
 if __name__ == "__main__":
     app.run(debug = True)
