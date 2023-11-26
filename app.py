@@ -23,17 +23,18 @@ def predict_api():
     data = request.json["data"]
  
  
-    data_frame = pd.DataFrame.from_dict(data)
-
+    data_frame = pd.DataFrame.from_dict(data, orient="columns")
+    print(data_frame)
 
     data_cleaned = pipe.data_cleaning(data_frame)
+    print(f"data_cleaned is {data_cleaned}")
     data_features_added = pipe.feature_creation(data_cleaned)
+    print(f"feature added is {data_features_added}")
     data_prepared = pipe.data_preparation(data_features_added)
-    prediction = pipe.predict(data_prepared)
+    print(f"feature prepared is {data_prepared}")
+    prediction = pipe.predict(data_prepared).tolist()
 
 
-    print(data_frame)
-    print(f"prediction is {prediction}")
     return jsonify(prediction)
 
 if __name__ == "__main__":
