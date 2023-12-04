@@ -1,4 +1,5 @@
 test
+env_prod_test/
 dev_env/
 env_test_prod/
 aws_private_artifacts/
