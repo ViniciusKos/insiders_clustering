@@ -1,2 +1,4 @@
 test
 dev_env/
+aws_private_artifacts/
+.dockerignore.txt
