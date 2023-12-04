@@ -1,7 +1,8 @@
 FROM python:3.10.4
+RUN apt update -y
+COPY requirements_prod.txt .
+RUN pip install -r requirements_prod.txt
 COPY . /app
 WORKDIR /app
-RUN apt update -y && apt install awscli -y
-RUN pip install -r requirements_prod.txt
 
 CMD ["python","app.py"]
