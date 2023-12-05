@@ -9,4 +9,4 @@ setup(
     license='MIT',
 )
 
-print("ok")
+print("okk")
