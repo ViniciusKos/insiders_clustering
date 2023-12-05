@@ -8,3 +8,5 @@ setup(
     author='vinicius_kos',
     license='MIT',
 )
+
+print("ok")
